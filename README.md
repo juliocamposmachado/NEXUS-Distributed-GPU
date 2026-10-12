@@ -1,3 +1,6 @@
+<img width="825" height="1024" alt="image" src="https://github.com/user-attachments/assets/2c44b8fd-df11-4961-a974-09f279105b24" />
+
+
 # NEXUS Distributed GPU
 
 **Uma arquitetura experimental para processamento distribuído de inteligência artificial.**
