@@ -1,102 +1,103 @@
-<img width="825" height="1024" alt="image" src="https://github.com/user-attachments/assets/2c44b8fd-df11-4961-a974-09f279105b24" />
-
+ <img width="825" height="1024" alt="image" src="https://github.com/user-attachments/assets/2c44b8fd-df11-4961-a974-09f279105b24" />
 
 # NEXUS Distributed GPU
 
-**Uma arquitetura experimental para processamento distribuído de inteligência artificial.**
+**一种用于人工智能分布式处理的实验性架构。**
 
-O NEXUS Distributed GPU é um projeto experimental em Python que explora como distribuir tarefas computacionais entre diferentes workers, coordenar sua execução e reunir os resultados em um único sistema.
+NEXUS Distributed GPU 是一个基于 Python 的实验性项目，旨在探索如何将计算任务分配给不同的工作节点（Workers）、协调任务执行，并在统一系统中汇总处理结果。
 
-A visão do projeto é evoluir de um coordenador local para uma rede de processamento de IA capaz de utilizar recursos computacionais autorizados de múltiplas máquinas.
+本项目的愿景是从本地协调器逐步发展为一个人工智能分布式计算网络，能够利用多台经过授权的计算机所提供的计算资源。
 
-> **Estado do projeto:** protótipo inicial em desenvolvimento. A fila de tarefas e a comunicação entre coordenador e workers estão em fase experimental. A execução real de modelos em GPU e o paralelismo interno de modelos neurais ainda precisam ser implementados e validados.
+> **项目状态：** 初始原型开发中。任务队列以及协调器与工作节点之间的通信仍处于实验阶段。真正的 GPU 模型执行和神经网络模型的内部并行处理仍需实现与验证。
 
-## Visão
+## 项目愿景
 
-Criar uma infraestrutura na qual o usuário envie uma solicitação e o sistema encaminhe o trabalho aos recursos computacionais apropriados, sem exigir que o computador do usuário execute localmente todo o processamento pesado.
+构建一种基础设施，使用户只需提交请求，系统便能将计算任务分配给合适的计算资源，而无需用户的计算机在本地承担全部高负载处理工作。
 
-A arquitetura poderá evoluir para incluir:
+未来的架构计划逐步支持以下功能：
 
-- Coordenação de tarefas distribuídas.
-- Workers executando tarefas especializadas.
-- Detecção de recursos computacionais.
-- Integração com modelos locais de inteligência artificial.
-- Processamento de imagens e documentos.
-- Monitoramento de recursos e consumo energético.
-- Tolerância a falhas e recuperação de tarefas.
-- Distribuição de modelos entre aceleradores compatíveis.
+- 分布式任务协调。
+- 执行专用任务的工作节点。
+- 计算资源自动检测。
+- 与本地人工智能模型集成。
+- 图像和文档处理。
+- 资源使用情况与能耗监控。
+- 容错机制与任务恢复。
+- 在兼容的加速器之间分布式部署模型。
 
-## Arquitetura inicial
+## 初始架构
 
 ```text
-                 USUÁRIO / CLIENTE
-                         |
-                         v
-                COORDENADOR NEXUS
-                         |
-                  FILA DE TAREFAS
-                         |
-             +-----------+-----------+
-             |           |           |
-             v           v           v
-          WORKER 1    WORKER 2    WORKER N
-             |           |           |
-             +-----------+-----------+
-                         |
-                         v
-                 RESULTADOS FINAIS
+                 用户 / 客户端
+                       |
+                       v
+                NEXUS 协调器
+                       |
+                    任务队列
+                       |
+             +---------+---------+
+             |         |         |
+             v         v         v
+          工作节点1  工作节点2  工作节点N
+             |         |         |
+             +---------+---------+
+                       |
+                       v
+                    最终结果
 ```
 
-### Componentes
+### 核心组件
 
-- **Coordenador:** recebe tarefas, mantém seus estados e disponibiliza trabalho aos workers.
-- **Fila de tarefas:** organiza as solicitações pendentes.
-- **Workers:** executam tarefas compatíveis e devolvem os resultados.
-- **API HTTP:** permite registrar workers, enviar tarefas e consultar resultados.
-- **Camada de recursos:** será expandida para considerar CPU, memória, GPUs e disponibilidade.
-- **Camada de IA:** futura integração com modelos de linguagem, geração de imagens e outros mecanismos de inferência.
+- **协调器（Coordinator）：** 接收任务、维护任务状态，并向工作节点分配可执行的工作。
+- **任务队列（Task Queue）：** 对等待处理的请求进行组织和管理。
+- **工作节点（Workers）：** 执行兼容的任务，并将处理结果返回给协调器。
+- **HTTP API：** 支持注册工作节点、提交任务和查询任务结果。
+- **资源管理层：** 未来将扩展资源管理能力，综合考虑 CPU、内存、GPU 和资源可用性。
+- **人工智能层：** 计划集成语言模型、图像生成模型及其他推理引擎。
 
-## Tecnologias
+## 技术栈
 
-- Python 3.10 ou superior.
-- FastAPI.
-- Uvicorn.
-- HTTPX.
-- Pydantic.
-- Git e GitHub.
+- Python 3.10 或更高版本。
+- FastAPI。
+- Uvicorn。
+- HTTPX。
+- Pydantic。
+- Git 和 GitHub。
 
-## Requisitos
+## 系统要求
 
-- Linux, incluindo Zorin OS.
-- Python 3.10 ou superior.
-- `python3-venv` disponível no sistema.
-- Conexão com a internet para instalar dependências.
+- Linux 操作系统，包括 Zorin OS。
+- Python 3.10 或更高版本。
+- 系统已提供 `python3-venv`。
+- 用于安装依赖项的互联网连接。
 
-Uma GPU não é necessária para executar o protótipo inicial.
+运行初始原型不需要 GPU。
 
-## Instalação
+## 安装
 
-Clone o repositório:
+克隆 GitHub 仓库：
 
 ```bash
 git clone https://github.com/juliocamposmachado/NEXUS-Distributed-GPU.git
 cd NEXUS-Distributed-GPU
 ```
 
-Crie e ative o ambiente virtual:
+创建并激活 Python 虚拟环境：
 
 ```bash
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-Instale as dependências:
+安装项目依赖：
 
 ```bash
 python -m pip install -r requirements.txt
 ```
 
-## Executar o coordenador
+## 启动协调器
+
+执行以下命令：
 
 ```bash
 python -m uvicorn nexus.coordinator:app \
@@ -104,16 +105,16 @@ python -m uvicorn nexus.coordinator:app \
   --port 8787
 ```
 
-A API ficará disponível localmente em:
+API 将在本地以下地址提供服务：
 
-- Saúde: `http://127.0.0.1:8787/health`
-- Documentação: `http://127.0.0.1:8787/docs`
-- Workers: `http://127.0.0.1:8787/workers`
-- Tarefas: `http://127.0.0.1:8787/tasks`
+- 健康检查：`http://127.0.0.1:8787/health`
+- API 文档：`http://127.0.0.1:8787/docs`
+- 工作节点：`http://127.0.0.1:8787/workers`
+- 任务管理：`http://127.0.0.1:8787/tasks`
 
-## Executar um worker
+## 启动工作节点
 
-Em outro terminal:
+在另一个终端中执行：
 
 ```bash
 cd NEXUS-Distributed-GPU
@@ -122,92 +123,102 @@ source .venv/bin/activate
 python workers/worker.py --name worker-local-1
 ```
 
-O worker registra seus recursos disponíveis e aguarda tarefas compatíveis.
+工作节点将注册其可用计算资源，并等待与自身能力相匹配的任务。
 
-## Enviar uma tarefa de teste
+## 提交测试任务
 
-Com o coordenador e o worker em execução:
+确保协调器和工作节点均已启动，然后执行：
 
 ```bash
 curl -X POST http://127.0.0.1:8787/tasks \
   -H 'Content-Type: application/json' \
-  -d '{"kind":"demo","payload":{"text":"Olá, NEXUS Distributed GPU"}}'
+  -d '{"kind":"demo","payload":{"text":"你好，NEXUS Distributed GPU"}}'
 ```
 
-A resposta contém o identificador da tarefa.
+响应中将包含该任务的唯一标识符。
 
-Consulte o estado e o resultado:
+使用以下命令查询任务状态和处理结果：
 
 ```bash
 curl http://127.0.0.1:8787/tasks
 ```
 
-A tarefa poderá aparecer como `queued`, `running`, `completed` ou `failed`.
+任务状态可能包括：
 
-## Roadmap
+- `queued`：任务正在排队等待执行。
+- `running`：任务正在执行。
+- `completed`：任务已成功完成。
+- `failed`：任务执行失败。
 
-### Fase 1 — Coordenação
-- [x] Estrutura inicial em Python.
-- [x] API HTTP para tarefas e workers.
-- [x] Fila de tarefas em memória.
-- [x] Worker demonstrativo.
-- [ ] Testes automatizados completos.
-- [ ] Persistência de tarefas em SQLite.
+## 项目路线图
 
-### Fase 2 — Recursos computacionais
-- [ ] Monitoramento de CPU e RAM.
-- [ ] Detecção e monitoramento de GPUs.
-- [ ] Medição de temperatura e consumo quando suportados.
-- [ ] Agendamento por capacidade e disponibilidade.
-- [ ] Heartbeats robustos e recuperação de workers indisponíveis.
+### 第一阶段 — 任务协调
 
-### Fase 3 — Inteligência artificial
-- [ ] Integração com modelos locais.
-- [ ] Execução real de inferência em GPU.
-- [ ] Processamento distribuído de tarefas de IA.
-- [ ] Integração experimental com geração de imagens.
-- [ ] Avaliação de desempenho e qualidade.
+- [x] 建立初始 Python 项目结构。
+- [x] 实现用于管理任务和工作节点的 HTTP API。
+- [x] 实现基于内存的任务队列。
+- [x] 实现演示用工作节点。
+- [ ] 完善并运行完整的自动化测试。
+- [ ] 使用 SQLite 实现任务持久化存储。
 
-### Fase 4 — Rede distribuída
-- [ ] Autenticação e autorização dos nós.
-- [ ] Comunicação segura com TLS.
-- [ ] Execução em máquinas remotas autorizadas.
-- [ ] Recuperação de tarefas e tolerância a falhas.
-- [ ] Observabilidade e métricas de eficiência.
+### 第二阶段 — 计算资源管理
 
-### Fase 5 — Modelos distribuídos
-- [ ] Pesquisa de paralelismo de modelos.
-- [ ] Comunicação entre aceleradores compatíveis.
-- [ ] Avaliação de latência e tráfego de rede.
-- [ ] Comparação de desempenho e consumo energético.
+- [ ] CPU 和 RAM 使用情况监控。
+- [ ] GPU 自动检测与监控。
+- [ ] 在硬件支持的情况下测量温度和能耗。
+- [ ] 根据计算能力和资源可用性调度任务。
+- [ ] 实现可靠的心跳机制，并恢复不可用工作节点的任务。
 
-## Princípios do projeto
+### 第三阶段 — 人工智能
 
-1. Distribuir trabalho de maneira eficiente.
-2. Reduzir a dependência do processamento local do usuário.
-3. Aproveitar recursos computacionais disponíveis de forma autorizada.
-4. Medir o desempenho antes de afirmar ganhos de velocidade ou eficiência energética.
-5. Preservar a integridade e a confidencialidade dos dados.
-6. Evoluir progressivamente, com testes reproduzíveis.
+- [ ] 集成本地人工智能模型。
+- [ ] 实现真正的 GPU 推理执行。
+- [ ] 实现人工智能任务的分布式处理。
+- [ ] 实验性集成图像生成能力。
+- [ ] 评估处理性能和输出质量。
 
-## Segurança
+### 第四阶段 — 分布式网络
 
-Esta versão é experimental e não está pronta para exposição pública na internet.
+- [ ] 实现节点身份验证与访问授权。
+- [ ] 使用 TLS 保护通信安全。
+- [ ] 支持在经过授权的远程计算机上执行任务。
+- [ ] 实现任务恢复和容错机制。
+- [ ] 建立可观测性系统与效率指标。
 
-O coordenador inicial mantém o estado em memória e não implementa autenticação, TLS ou persistência. Use-o apenas em ambiente local e com dados não confidenciais.
+### 第五阶段 — 分布式模型
 
-Antes de habilitar comunicação remota, será necessário implementar autenticação dos workers, autorização por tarefa, validação de dados, limites de recursos, proteção contra abuso e comunicação criptografada.
+- [ ] 研究模型并行与模型分片技术。
+- [ ] 实现兼容加速器之间的通信。
+- [ ] 评估网络延迟和通信流量。
+- [ ] 比较不同方案的性能与能耗。
 
-Não execute código arbitrário recebido de máquinas remotas. Não envie informações sensíveis para workers que não sejam confiáveis.
+## 项目原则
 
-## Contribuições
+1. 高效地分配和执行计算任务。
+2. 降低用户对本地计算资源的依赖。
+3. 在获得授权的前提下利用可用计算资源。
+4. 在宣称性能提升或能效改善之前，必须进行实际测量与验证。
+5. 保护数据的完整性与机密性。
+6. 采用渐进式开发，并确保测试可重复执行。
 
-Contribuições, testes, sugestões de arquitetura e experimentos reproduzíveis são bem-vindos.
+## 安全说明
 
-## Licença
+当前版本仍处于实验阶段，尚不适合直接暴露在公共互联网中。
 
-A licença ainda será definida. Até que uma licença seja adicionada ao repositório, não presuma que o código esteja liberado para reutilização, redistribuição ou uso comercial.
+初始协调器将任务状态保存在内存中，尚未实现身份验证、TLS 加密或持久化存储。请仅在本地环境中使用此版本，并避免处理机密数据。
+
+在启用远程通信之前，必须实现工作节点身份验证、任务级访问授权、数据验证、资源使用限制、防滥用机制以及加密通信。
+
+请勿执行来自远程计算机的任意代码，也不要将敏感信息发送给不可信的工作节点。
+
+## 参与贡献
+
+欢迎提交代码贡献、测试结果、架构建议以及可重复验证的实验。
+
+## 许可证
+
+本项目的许可证尚未确定。在仓库正式添加许可证之前，请勿假定代码已获准用于再利用、再分发或商业用途。
 
 ---
 
-**NEXUS Distributed GPU — explorando uma nova arquitetura para processamento distribuído de inteligência artificial.**
+**NEXUS Distributed GPU —— 探索人工智能分布式处理的新型架构。**
